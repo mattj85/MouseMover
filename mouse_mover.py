@@ -112,8 +112,6 @@ class MainWindow(QMainWindow):
 
         self.thread.started.connect(self.worker.run)
         self.worker.finished.connect(self.thread.quit)
-        self.worker.finished.connect(self.worker.deleteLater)
-        self.thread.finished.connect(self.thread.deleteLater)
         self.worker.status_update.connect(self.update_status_label)
         self.worker.error_occurred.connect(self.show_error_message)
 
@@ -124,11 +122,15 @@ class MainWindow(QMainWindow):
         self.status_label.setText("Status: Running...")
 
     def stop_moving(self):
+        if self.worker:
+            self.worker.stop()
+            
         if self.thread and self.thread.isRunning():
-            if self.worker:
-                self.worker.stop()
             self.thread.quit()
             self.thread.wait()
+        
+        self.thread = None
+        self.worker = None
         
         self.start_button.setEnabled(True)
         self.stop_button.setEnabled(False)
@@ -141,11 +143,13 @@ class MainWindow(QMainWindow):
         QMessageBox.critical(self, "Error", text)
         self.stop_moving()
 
+    def closeEvent(self, event):
+        self.stop_moving()
+        event.accept()
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = MainWindow()
-    app.aboutToQuit.connect(window.stop_moving)
     window.show()
     sys.exit(app.exec())
-
 
