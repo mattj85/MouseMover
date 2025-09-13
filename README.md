@@ -68,4 +68,3 @@ Make sure the toggle next to MouseMover is turned on.
 License
 This project is licensed under the MIT License.
 
-
