@@ -3,6 +3,7 @@ A simple utility to keep your Mac active by automatically moving the mouse at se
 
 
 ## Demo
+Ideal to be launched from the Shortcuts menu for quick access.
 
 https://youtu.be/lmnxJm7RP5Y?si=GVXU3rJaDJkLKX6D
 
